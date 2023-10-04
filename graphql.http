@@ -1,0 +1,54 @@
+## no args
+GRAPHQL http://localhost:8080/graphql
+
+query {
+  allMembers {
+    id
+    firstName
+    lastName
+    group {
+      id
+      name
+      lead {
+        firstName
+        lastName
+      }
+    }
+  }
+}
+
+
+### call query with constant
+GRAPHQL http://localhost:8080/graphql
+
+query {
+  membersByGroup(name:"first_group") {
+        id
+        firstName
+        lastName
+        group{
+          id
+          name
+          lead {
+            lastName
+      }
+    }
+  }
+}
+
+### call the same query with variable
+GRAPHQL http://localhost:8080/graphql
+
+query test($grName: String){
+  membersByGroup(name: $grName){
+    id
+    firstName
+    lastName
+  }
+}
+
+{
+  "grName": "second_group"
+}
+
+

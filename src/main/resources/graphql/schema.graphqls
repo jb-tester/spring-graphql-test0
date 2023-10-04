@@ -1,0 +1,20 @@
+type Member {
+    id: ID!
+    firstName: String!
+    lastName: String!
+    group: Group!
+}
+
+type Group {
+    id: ID!
+    name: String!
+    lead: Member
+}
+type Query {
+    membersByGroup(name: String): [Member]!
+    allMembers: [Member]!
+}
+
+type Mutation {
+    createMember(name: String, lastName: String): Member!
+}
