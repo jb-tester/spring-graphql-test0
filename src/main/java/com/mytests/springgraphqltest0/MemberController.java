@@ -1,47 +1,50 @@
 package com.mytests.springgraphqltest0;
 
-import com.mytests.springgraphqltest0.model.Group;
+import com.mytests.springgraphqltest0.model.Groups;
 import com.mytests.springgraphqltest0.model.Member;
 import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Controller
 public class MemberController {
 
-  private final GroupDAO groupDAO;
   private final MembersDAO membersDAO;
 
-  public MemberController(GroupDAO groupDAO, MembersDAO membersDAO) {
-    this.groupDAO = groupDAO;
+  public MemberController(MembersDAO membersDAO) {
     this.membersDAO = membersDAO;
+    membersDAO.populateDB();
   }
 
+  // incorrect generated request: redundant `()` after query name
   @QueryMapping
   public List<Member> allMembers(){
     return membersDAO.getAllMembers();
   }
+  // incorrect generated request: query itself uses var as parameter
   @QueryMapping
   public List<Member> membersByGroup(@Argument String name){
-    int groupId = 0;
-    for (Group group : groupDAO.getGroups()) {
-      if (group.getName().equals(name)){groupId = group.getId();}
-    }
-    List<Member> results = membersDAO.getMembersByGroup(groupId);
-    return results;
+      return membersDAO.getGroupByName(name).getMembers();
   }
 
+  @Transactional
+  @MutationMapping
+  public Member createMember(@Argument("name") String fn, @Argument("lastName") String ln){
+      return membersDAO.addMemberToRandomGroup(fn, ln);
+  }
   @SchemaMapping(typeName = "Member", field = "group")
-  public Group getGroup(Member member){
-     return groupDAO.getGroupById(member.getGroupId());
+  public Groups getGroup(Member member){
+     return membersDAO.getMemberGroup(member);
   }
 
-  @SchemaMapping(typeName = "Group", field = "lead")
-  public Member getLead(Group group){
-     return membersDAO.getMemberById(group.getLeadId());
+  @SchemaMapping(typeName = "Groups", field = "leadName")
+  public String getLead(Groups groups){
+     return groups.getLead().getFirstName()+" "+ groups.getLead().getLastName();
   }
 
 }

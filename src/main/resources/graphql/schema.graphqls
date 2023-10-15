@@ -2,17 +2,18 @@ type Member {
     id: ID!
     firstName: String!
     lastName: String!
-    group: Group!
+    group: Groups!
 }
 
-type Group {
-    id: ID!
+type Groups {
+    groupId: ID!
     name: String!
-    lead: Member
+    leadName: String
 }
 type Query {
     membersByGroup(name: String): [Member]!
     allMembers: [Member]!
+
 }
 
 type Mutation {

@@ -7,12 +7,9 @@ query {
     firstName
     lastName
     group {
-      id
+      groupId
       name
-      lead {
-        firstName
-        lastName
-      }
+      leadName
     }
   }
 }
@@ -22,33 +19,48 @@ query {
 GRAPHQL http://localhost:8080/graphql
 
 query {
-  membersByGroup(name:"first_group") {
+    membersByGroup(name:"first_group") {
         id
         firstName
         lastName
         group{
-          id
-          name
-          lead {
-            lastName
-      }
+            groupId
+            name
+            leadName
+        }
     }
-  }
 }
 
 ### call the same query with variable
 GRAPHQL http://localhost:8080/graphql
 
 query test($grName: String){
-  membersByGroup(name: $grName){
-    id
-    firstName
-    lastName
-  }
+    membersByGroup(name: $grName){
+        id
+        firstName
+        lastName
+    }
 }
 
 {
   "grName": "second_group"
 }
 
+###mutation
+GRAPHQL http://localhost:8080/graphql
 
+mutation createPerson($name: String, $lastName: String){
+    createMember(name: $name, lastName: $lastName) {
+        id
+        firstName
+        lastName
+        group {
+            name
+        }
+    }
+}
+
+{
+  "name": "elena",
+  "lastName": "pogorelova"
+}

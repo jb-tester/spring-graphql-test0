@@ -1,18 +1,24 @@
 package com.mytests.springgraphqltest0.model;
 
+import jakarta.persistence.*;
 
+@Entity
 public class Member {
 
+    @Id @GeneratedValue
     Integer id;
     String firstName;
     String lastName;
-    Integer groupId;
 
-    public Member(Integer id, String firstName, String lastName, Integer groupId) {
-        this.id = id;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Groups groups;
+
+    public Member() {
+    }
+
+    public Member(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.groupId = groupId;
     }
 
     public Integer getId() {
@@ -39,11 +45,11 @@ public class Member {
         this.lastName = lastName;
     }
 
-    public Integer getGroupId() {
-        return groupId;
+    public Groups getGroups() {
+        return groups;
     }
 
-    public void setGroupId(Integer groupId) {
-        this.groupId = groupId;
+    public void setGroups(Groups groups) {
+        this.groups = groups;
     }
 }
