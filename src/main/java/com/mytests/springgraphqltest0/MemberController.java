@@ -22,10 +22,11 @@ public class MemberController {
   }
 
   // incorrect generated request: redundant `()` after query name
-  @QueryMapping
-  public List<Member> allMembers(){
+  @QueryMapping("allMembersQuery")
+  public List<Member> getAllMembersFromBD() {
     return membersDAO.getAllMembers();
   }
+
   // incorrect generated request: query itself uses var as parameter
   @QueryMapping
   public List<Member> membersByGroup(@Argument String name){
@@ -37,12 +38,17 @@ public class MemberController {
   public Member createMember(@Argument("name") String fn, @Argument("lastName") String ln){
       return membersDAO.addMemberToRandomGroup(fn, ln);
   }
-  @SchemaMapping(typeName = "Member", field = "group")
-  public Groups getGroup(Member member){
+
+
+  //@SchemaMapping(typeName = "Member", field = "group")
+  @SchemaMapping // should get the typeName and field automatically - ok; rename doesn't work as expected however
+  public Groups group(Member member){
      return membersDAO.getMemberGroup(member);
   }
 
-  @SchemaMapping(typeName = "Groups", field = "leadName")
+  // rename for @*Mapping#field works incorrectly
+ // @SchemaMapping(typeName = "Groups", field = "leadName")
+  @SchemaMapping(field = "leadName") // should get the typeName automatically - ok
   public String getLead(Groups groups){
      return groups.getLead().getFirstName()+" "+ groups.getLead().getLastName();
   }

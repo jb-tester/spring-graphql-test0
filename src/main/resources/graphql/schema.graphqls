@@ -12,7 +12,7 @@ type Groups {
 }
 type Query {
     membersByGroup(name: String): [Member]!
-    allMembers: [Member]!
+    allMembersQuery: [Member]!
 
 }
 
