@@ -33,6 +33,7 @@ public class MemberController {
       return membersDAO.getGroupByName(name).getMembers();
   }
 
+  // doubled Generate HTTP Request action here - https://youtrack.jetbrains.com/issue/IDEA-334974
   @Transactional
   @MutationMapping
   public Member createMember(@Argument("name") String fn, @Argument("lastName") String ln){
