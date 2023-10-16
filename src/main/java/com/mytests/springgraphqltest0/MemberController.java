@@ -21,13 +21,13 @@ public class MemberController {
     membersDAO.populateDB();
   }
 
-  // incorrect generated request: redundant `()` after query name
+  // incorrect generated request: redundant `()` after query name https://youtrack.jetbrains.com/issue/IDEA-334940
   @QueryMapping("allMembersQuery")
   public List<Member> getAllMembersFromBD() {
     return membersDAO.getAllMembers();
   }
 
-  // incorrect generated request: query itself uses var as parameter
+  // incorrect generated request: the parameter variable is not declared https://youtrack.jetbrains.com/issue/IDEA-334945
   @QueryMapping
   public List<Member> membersByGroup(@Argument String name){
       return membersDAO.getGroupByName(name).getMembers();
@@ -46,9 +46,9 @@ public class MemberController {
      return membersDAO.getMemberGroup(member);
   }
 
-  // rename for @*Mapping#field works incorrectly
- // @SchemaMapping(typeName = "Groups", field = "leadName")
-  @SchemaMapping(field = "leadName") // should get the typeName automatically - ok
+  // rename for @*Mapping#field works incorrectly https://youtrack.jetbrains.com/issue/IDEA-334970
+  @SchemaMapping(typeName = "Groups", field = "leadName")
+  //@SchemaMapping(field = "leadName") // should get the typeName automatically - ok
   public String getLead(Groups groups){
      return groups.getLead().getFirstName()+" "+ groups.getLead().getLastName();
   }
