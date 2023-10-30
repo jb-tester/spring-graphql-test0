@@ -14,37 +14,37 @@ import java.util.List;
 @Controller
 public class MemberController {
 
-  private final MembersDAO membersDAO;
+  private final MemberDAO memberDAO;
 
-  public MemberController(MembersDAO membersDAO) {
-    this.membersDAO = membersDAO;
-    membersDAO.populateDB();
+  public MemberController(MemberDAO memberDAO) {
+    this.memberDAO = memberDAO;
+    memberDAO.populateDB();
   }
 
   // incorrect generated request: redundant `()` after query name https://youtrack.jetbrains.com/issue/IDEA-334940
   @QueryMapping("allMembersQuery")
   public List<Member> getAllMembersFromBD() {
-    return membersDAO.getAllMembers();
+    return memberDAO.getAllMembers();
   }
 
   // incorrect generated request: the parameter variable is not declared https://youtrack.jetbrains.com/issue/IDEA-334945
   @QueryMapping
   public List<Member> membersByGroup(@Argument String name){
-      return membersDAO.getGroupByName(name).getMembers();
+      return memberDAO.getGroupByName(name).getMembers();
   }
 
   // doubled Generate HTTP Request action here - https://youtrack.jetbrains.com/issue/IDEA-334974
   @Transactional
   @MutationMapping
   public Member createMember(@Argument("name") String fn, @Argument("lastName") String ln){
-      return membersDAO.addMemberToRandomGroup(fn, ln);
+      return memberDAO.addMemberToRandomGroup(fn, ln);
   }
 
 
   //@SchemaMapping(typeName = "Member", field = "group")
   @SchemaMapping // should get the typeName and field automatically - ok; rename doesn't work as expected however
   public Groups group(Member member){
-     return membersDAO.getMemberGroup(member);
+     return memberDAO.getMemberGroup(member);
   }
 
   // rename for @*Mapping#field works incorrectly https://youtrack.jetbrains.com/issue/IDEA-334970

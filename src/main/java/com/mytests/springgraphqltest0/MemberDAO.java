@@ -10,11 +10,11 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
-public class MembersDAO {
+public class MemberDAO {
     private final MemberRepository memberRepository;
     private final GroupRepository groupRepository;
 
-    public MembersDAO(MemberRepository memberRepository, GroupRepository groupRepository) {
+    public MemberDAO(MemberRepository memberRepository, GroupRepository groupRepository) {
         this.memberRepository = memberRepository;
         this.groupRepository = groupRepository;
 
