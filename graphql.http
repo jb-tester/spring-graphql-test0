@@ -1,5 +1,6 @@
+
 ###no args
-GRAPHQL http://localhost:8080/mygraphql
+GRAPHQL http://localhost:8082/foo/mygraphql
 
 query {
   allMembersQuery {
@@ -16,7 +17,7 @@ query {
 
 
 ### call query with constant
-GRAPHQL http://localhost:8080/mygraphql
+GRAPHQL http://localhost:8082/foo/mygraphql
 
 query {
     membersByGroup(name:"first_group") {
@@ -32,13 +33,14 @@ query {
 }
 
 ### call the same query with variable
-GRAPHQL http://localhost:8080/mygraphql
+GRAPHQL http://localhost:8082/foo/mygraphql
 
 query test($grName: String){
     membersByGroup(name: $grName){
         id
         firstName
         lastName
+
     }
 }
 
@@ -47,7 +49,7 @@ query test($grName: String){
 }
 
 ###mutation
-GRAPHQL http://localhost:8080/mygraphql
+GRAPHQL http://localhost:8082/foo/mygraphql
 
 mutation createPerson($name: String, $lastName: String){
     createMember(name: $name, lastName: $lastName) {
