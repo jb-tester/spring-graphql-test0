@@ -39,7 +39,11 @@ public class MemberController {
   public Member createMember(@Argument("name") String fn, @Argument("lastName") String ln){
       return memberDAO.addMemberToRandomGroup(fn, ln);
   }
-
+  @Transactional
+  @MutationMapping
+  public Groups addGroup(@Argument("name") String name){
+    return memberDAO.addGroup(name);
+  }
 
   //@SchemaMapping(typeName = "Member", field = "group")
   @SchemaMapping // should get the typeName and field automatically - ok; rename doesn't work as expected however

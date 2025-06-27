@@ -58,6 +58,9 @@ public class MemberDAO {
         return groupRepository.findByMembersContains(member);
 
     }
+    public Groups addGroup(String name){
+        return groupRepository.save(new Groups(name));
+    }
 
     public void populateDB() {
 
